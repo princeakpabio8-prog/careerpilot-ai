@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+
+# Node
+node_modules/
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# Environment / secrets
+.env
+.env.local
+.env.*
+*.env
+*.local
+!.env.example
+!.env.local.example
+secrets/
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Generated artifacts and uploads
+uploads/
+media/
+exports/
+generated/
+coverage/
+tmp/
+*.log
+*.sqlite
+*.sqlite3
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

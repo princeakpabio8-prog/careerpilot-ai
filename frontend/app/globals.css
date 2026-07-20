@@ -1,0 +1,608 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  color: #f5f7fb;
+  background: #07111f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(57, 131, 255, 0.18), transparent 34%),
+    #07111f;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.hero,
+.dashboard {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.hero {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+}
+
+.heroCard {
+  max-width: 760px;
+  padding: 56px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  background: rgba(13, 27, 45, 0.86);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.3);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(42px, 7vw, 78px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+}
+
+.heroCard p {
+  max-width: 640px;
+  color: #aebbd0;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #71a7ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.button {
+  display: inline-flex;
+  margin-top: 18px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: #f5f7fb;
+  color: #07111f;
+  font-weight: 800;
+}
+
+.dashboard {
+  padding: 48px 0 80px;
+}
+
+.topbar {
+  margin-bottom: 28px;
+}
+
+.topbar h1 {
+  font-size: 44px;
+  margin-bottom: 0;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.card,
+.panel {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(13, 27, 45, 0.86);
+  border-radius: 20px;
+}
+
+.card {
+  padding: 24px;
+}
+
+.card span {
+  color: #9dabc0;
+}
+
+.card strong {
+  display: block;
+  margin-top: 12px;
+  font-size: 36px;
+}
+
+.panel {
+  padding: 26px;
+}
+
+.panelHeader h2 {
+  margin-bottom: 18px;
+}
+
+.jobList {
+  display: grid;
+  gap: 12px;
+}
+
+.jobRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.jobRow p {
+  margin-bottom: 0;
+  color: #9dabc0;
+}
+
+.jobMeta {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.jobMeta span {
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: rgba(113, 167, 255, 0.12);
+  color: #bcd4ff;
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+@media (max-width: 760px) {
+  .heroCard {
+    padding: 28px;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .jobRow {
+    flex-direction: column;
+  }
+
+  .jobMeta {
+    flex-wrap: wrap;
+  }
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #07111f;
+  color: #f6f8fc;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.landingPage {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(113, 167, 255, 0.22), transparent 30%),
+    linear-gradient(135deg, #07111f 0%, #0f203a 100%);
+}
+
+.heroSection {
+  min-height: 100vh;
+  padding: 22px 24px 56px;
+  background:
+    linear-gradient(120deg, rgba(7, 17, 31, 0.92), rgba(7, 17, 31, 0.8)),
+    url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1400&q=80") center/cover;
+}
+
+.topNav {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.16);
+}
+
+.brandMark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brandDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6bb7ff, #8d7bff);
+  box-shadow: 0 0 12px rgba(107, 183, 255, 0.8);
+}
+
+.navLinks,
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navLinks a,
+.textLink {
+  color: rgba(246, 248, 252, 0.86);
+  font-size: 0.95rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  padding: 10px 16px;
+  font-weight: 700;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #6bb7ff, #8d7bff);
+  color: white;
+  box-shadow: 0 10px 24px rgba(107, 183, 255, 0.24);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f6f8fc;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover {
+  transform: translateY(-1px);
+}
+
+.large {
+  padding: 12px 20px;
+}
+
+.heroContent {
+  max-width: 1200px;
+  margin: 88px auto 0;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.heroCopy h1 {
+  margin: 0 0 16px;
+  font-size: clamp(2.35rem, 5vw, 4.3rem);
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  max-width: 720px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin: 0 0 10px;
+  color: #8fd0ff;
+  font-size: 0.77rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.heroText {
+  margin: 0 0 24px;
+  max-width: 640px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(246, 248, 252, 0.83);
+}
+
+.heroButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.heroStats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.heroStats div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.heroStats strong {
+  font-size: 1.1rem;
+}
+
+.heroStats span {
+  color: rgba(246, 248, 252, 0.72);
+  font-size: 0.9rem;
+}
+
+.heroPanel {
+  position: relative;
+  padding: 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 20, 36, 0.74);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+}
+
+.panelGlow {
+  position: absolute;
+  inset: auto -30px -30px auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(107, 183, 255, 0.4), transparent 70%);
+}
+
+.panelLabel {
+  margin: 0 0 10px;
+  color: #8fd0ff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.heroPanel h2 {
+  margin: 0 0 12px;
+  font-size: 1.35rem;
+}
+
+.heroPanel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+  color: rgba(246, 248, 252, 0.8);
+}
+
+.heroPanel li::before {
+  content: "•";
+  color: #8fd0ff;
+  margin-right: 8px;
+}
+
+.logoStrip,
+.sectionBlock,
+.finalCta {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.logoStrip {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 24px;
+  color: rgba(246, 248, 252, 0.7);
+}
+
+.logoRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logoRow span {
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e7eefc;
+}
+
+.sectionBlock {
+  margin-top: 18px;
+  padding: 30px 24px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sectionBlock.alt {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.sectionHeading {
+  margin-bottom: 20px;
+}
+
+.sectionHeading h2 {
+  margin: 0;
+  font-size: clamp(1.4rem, 2.8vw, 2rem);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.featureCard,
+.testimonialCard,
+.pricingCard {
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(7, 17, 31, 0.68);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.16);
+}
+
+.featureCard h3,
+.pricingCard h3 {
+  margin: 0 0 8px;
+  font-size: 1.06rem;
+}
+
+.featureCard p,
+.testimonialCard p,
+.pricingCard li,
+.pricingCard p,
+.footer p {
+  color: rgba(246, 248, 252, 0.76);
+  line-height: 1.7;
+}
+
+.stepCard {
+  min-height: 180px;
+}
+
+.stepIndex {
+  display: inline-flex;
+  margin-bottom: 10px;
+  color: #8fd0ff;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.testimonialCard span {
+  display: inline-block;
+  margin-top: 12px;
+  color: #8fd0ff;
+  font-weight: 700;
+}
+
+.pricingGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.price {
+  margin: 8px 0 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f6f8fc;
+}
+
+.pricingCard ul {
+  padding-left: 18px;
+  margin: 0 0 16px;
+}
+
+.finalCta {
+  margin-top: 18px;
+  margin-bottom: 18px;
+  padding: 34px 24px;
+  border-radius: 24px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(107, 183, 255, 0.16), rgba(141, 123, 255, 0.16));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.finalCta h2 {
+  margin: 0 0 10px;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.finalCta p {
+  margin: 0 0 18px;
+  color: rgba(246, 248, 252, 0.8);
+}
+
+.footer {
+  max-width: 1200px;
+  margin: 0 auto 24px;
+  padding: 0 24px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: rgba(246, 248, 252, 0.75);
+}
+
+.footer div {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 860px) {
+  .heroContent,
+  .cardGrid,
+  .pricingGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .topNav {
+    flex-wrap: wrap;
+    border-radius: 24px;
+  }
+
+  .navLinks {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .heroSection {
+    padding: 16px 14px 36px;
+  }
+
+  .topNav,
+  .sectionBlock,
+  .logoStrip,
+  .finalCta,
+  .footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .heroContent {
+    margin-top: 40px;
+  }
+
+  .heroButtons {
+    flex-direction: column;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}
