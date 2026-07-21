@@ -562,6 +562,7 @@ a {
 }
 
 @media (max-width: 860px) {
+
   .heroContent,
   .cardGrid,
   .pricingGrid {
@@ -605,4 +606,720 @@ a {
   .footer {
     flex-direction: column;
   }
+}
+
+/* ========================================
+CAREERPILOT PROFILE PAGE
+======================================== */
+
+.profilePage {
+  min-height: 100vh;
+  padding-bottom: 80px;
+  background:
+    radial-gradient(circle at top left, rgba(107, 183, 255, 0.18), transparent 32%),
+    linear-gradient(145deg, #07111f 0%, #0b1b31 55%, #07111f 100%);
+}
+
+.profileHero {
+  padding: 72px 24px 120px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(120deg, rgba(7, 17, 31, 0.92), rgba(12, 34, 58, 0.76)),
+    radial-gradient(circle at 80% 20%, rgba(107, 183, 255, 0.2), transparent 34%);
+}
+
+.profileHeroContent {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.profileHeroContent h1 {
+  max-width: 900px;
+  margin-bottom: 20px;
+  font-size: clamp(2.7rem, 6vw, 5.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.profileHeroContent>div:first-child>p:last-child {
+  max-width: 720px;
+  margin-bottom: 0;
+  color: rgba(246, 248, 252, 0.76);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.heroBadge {
+  flex-shrink: 0;
+  padding: 12px 16px;
+  border: 1px solid rgba(143, 208, 255, 0.26);
+  border-radius: 999px;
+  background: rgba(143, 208, 255, 0.09);
+  color: #bde5ff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.profileCard {
+  width: min(1120px, calc(100% - 32px));
+  margin: -72px auto 0;
+  padding: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 28px;
+  background: rgba(10, 24, 42, 0.93);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(20px);
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.avatarWrap {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.avatarPreview {
+  width: 122px;
+  height: 122px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 2px solid rgba(143, 208, 255, 0.42);
+  border-radius: 32px;
+  background:
+    linear-gradient(145deg, rgba(107, 183, 255, 0.25), rgba(141, 123, 255, 0.18)),
+    #0d2138;
+  color: #f6f8fc;
+  font-size: 2rem;
+  font-weight: 800;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+}
+
+.avatarPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatarWrap input[type="file"] {
+  display: none;
+}
+
+.uploadButton {
+  cursor: pointer;
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(246, 248, 252, 0.88);
+  font-size: 0.84rem;
+  font-weight: 700;
+  transition: 180ms ease;
+}
+
+.uploadButton:hover {
+  transform: translateY(-1px);
+  border-color: rgba(143, 208, 255, 0.36);
+  background: rgba(143, 208, 255, 0.1);
+}
+
+.profileHeadlineBlock {
+  min-width: 0;
+}
+
+.profileHeadlineBlock h2 {
+  margin-bottom: 8px;
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  letter-spacing: -0.035em;
+}
+
+.profileHeadlineBlock>p {
+  max-width: 830px;
+  margin-bottom: 18px;
+  color: rgba(246, 248, 252, 0.72);
+  line-height: 1.6;
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.pill {
+  padding: 8px 11px;
+  border: 1px solid rgba(143, 208, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(143, 208, 255, 0.08);
+  color: #c6e9ff;
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.formSection {
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.formSection h3 {
+  margin-bottom: 2px;
+  font-size: 1.18rem;
+  letter-spacing: -0.02em;
+}
+
+.formSection label {
+  display: grid;
+  gap: 9px;
+  color: rgba(246, 248, 252, 0.88);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.fieldLabel {
+  display: block;
+  margin-bottom: 10px;
+  color: rgba(246, 248, 252, 0.88);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.formSection input,
+.formSection textarea,
+.formSection select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 13px;
+  outline: none;
+  background: rgba(4, 14, 27, 0.72);
+  color: #f6f8fc;
+  font: inherit;
+  font-weight: 400;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.formSection input,
+.formSection select {
+  min-height: 48px;
+  padding: 0 14px;
+}
+
+.formSection textarea {
+  padding: 13px 14px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.formSection input:focus,
+.formSection textarea:focus,
+.formSection select:focus {
+  border-color: rgba(107, 183, 255, 0.68);
+  background: rgba(7, 20, 37, 0.94);
+  box-shadow: 0 0 0 4px rgba(107, 183, 255, 0.1);
+}
+
+.formSection input::placeholder,
+.formSection textarea::placeholder {
+  color: rgba(246, 248, 252, 0.36);
+}
+
+.chipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.chipButton {
+  cursor: pointer;
+  padding: 9px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: rgba(246, 248, 252, 0.7);
+  font: inherit;
+  font-size: 0.79rem;
+  font-weight: 650;
+  transition: 160ms ease;
+}
+
+.chipButton:hover {
+  border-color: rgba(143, 208, 255, 0.3);
+  color: #f6f8fc;
+}
+
+.chipButton.active {
+  border-color: rgba(107, 183, 255, 0.42);
+  background: linear-gradient(135deg,
+      rgba(107, 183, 255, 0.18),
+      rgba(141, 123, 255, 0.16));
+  color: #dff3ff;
+}
+
+.formSection button {
+  font-family: inherit;
+}
+
+@media (max-width: 860px) {
+  .profileHero {
+    padding-top: 52px;
+  }
+
+  .profileHeroContent {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profileCard {
+    padding: 24px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .profileHero {
+    padding: 42px 18px 100px;
+  }
+
+  .profileHeroContent h1 {
+    font-size: clamp(2.25rem, 12vw, 3.7rem);
+  }
+
+  .profileCard {
+    width: min(100% - 20px, 1120px);
+    margin-top: -62px;
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .profileHeader {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .avatarWrap {
+    justify-items: start;
+  }
+
+  .avatarPreview {
+    width: 96px;
+    height: 96px;
+    border-radius: 25px;
+  }
+
+  .formSection {
+    padding: 18px;
+  }
+}
+/* ========================================
+CAREERPILOT ONBOARDING
+======================================== */
+
+.onboardingPage {
+min-height: 100vh;
+padding: 24px;
+background:
+radial-gradient(circle at 8% 5%, rgba(107, 183, 255, 0.2), transparent 30%),
+radial-gradient(circle at 92% 92%, rgba(141, 123, 255, 0.14), transparent 30%),
+linear-gradient(145deg, #06101d, #0b1b31 55%, #07111f);
+}
+
+.onboardingTopbar {
+width: min(1240px, 100%);
+margin: 0 auto 22px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 20px;
+}
+
+.onboardingTopbar > span {
+color: rgba(246, 248, 252, 0.64);
+font-size: 0.88rem;
+}
+
+.onboardingBrand {
+display: inline-flex;
+align-items: center;
+gap: 10px;
+font-weight: 800;
+}
+
+.onboardingLayout {
+width: min(1240px, 100%);
+margin: 0 auto;
+display: grid;
+grid-template-columns: minmax(290px, 0.75fr) minmax(0, 1.25fr);
+gap: 24px;
+align-items: stretch;
+}
+
+.onboardingSidebar,
+.onboardingCard {
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 28px;
+background: rgba(9, 23, 41, 0.88);
+box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+backdrop-filter: blur(18px);
+}
+
+.onboardingSidebar {
+padding: 38px;
+background:
+radial-gradient(circle at top left, rgba(107, 183, 255, 0.17), transparent 42%),
+rgba(9, 23, 41, 0.9);
+}
+
+.onboardingSidebar h1 {
+margin-bottom: 18px;
+font-size: clamp(2.1rem, 4vw, 3.7rem);
+line-height: 1;
+letter-spacing: -0.055em;
+}
+
+.onboardingDescription {
+color: rgba(246, 248, 252, 0.69);
+line-height: 1.7;
+}
+
+.onboardingProgress {
+margin: 34px 0;
+}
+
+.progressText {
+display: flex;
+justify-content: space-between;
+gap: 12px;
+margin-bottom: 10px;
+color: rgba(246, 248, 252, 0.76);
+font-size: 0.86rem;
+}
+
+.progressTrack {
+height: 8px;
+overflow: hidden;
+border-radius: 999px;
+background: rgba(255, 255, 255, 0.08);
+}
+
+.progressTrack span {
+display: block;
+height: 100%;
+border-radius: inherit;
+background: linear-gradient(90deg, #6bb7ff, #8d7bff);
+transition: width 240ms ease;
+}
+
+.onboardingSteps {
+display: grid;
+gap: 13px;
+}
+
+.onboardingStepItem {
+display: flex;
+align-items: center;
+gap: 12px;
+color: rgba(246, 248, 252, 0.48);
+}
+
+.onboardingStepItem > span {
+width: 34px;
+height: 34px;
+display: grid;
+flex-shrink: 0;
+place-items: center;
+border: 1px solid rgba(255, 255, 255, 0.11);
+border-radius: 50%;
+background: rgba(255, 255, 255, 0.04);
+font-size: 0.8rem;
+font-weight: 800;
+}
+
+.onboardingStepItem p {
+margin: 0;
+font-size: 0.92rem;
+font-weight: 650;
+}
+
+.onboardingStepItem.active {
+color: #f6f8fc;
+}
+
+.onboardingStepItem.active > span,
+.onboardingStepItem.complete > span {
+border-color: rgba(107, 183, 255, 0.42);
+background: rgba(107, 183, 255, 0.15);
+color: #dff3ff;
+}
+
+.onboardingStepItem.complete {
+color: rgba(246, 248, 252, 0.74);
+}
+
+.onboardingCard {
+min-height: 690px;
+padding: 38px;
+display: flex;
+flex-direction: column;
+}
+
+.onboardingForm {
+display: grid;
+gap: 22px;
+animation: onboardingFade 220ms ease;
+}
+
+@keyframes onboardingFade {
+from {
+opacity: 0;
+transform: translateY(8px);
+}
+
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.onboardingHeading {
+padding-bottom: 20px;
+border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.onboardingHeading h2 {
+margin-bottom: 9px;
+font-size: clamp(1.7rem, 3vw, 2.4rem);
+letter-spacing: -0.04em;
+}
+
+.onboardingHeading > p:last-child {
+margin-bottom: 0;
+color: rgba(246, 248, 252, 0.63);
+line-height: 1.6;
+}
+
+.onboardingForm label {
+display: grid;
+gap: 9px;
+color: rgba(246, 248, 252, 0.88);
+font-size: 0.88rem;
+font-weight: 700;
+}
+
+.onboardingForm input,
+.onboardingForm textarea,
+.onboardingForm select,
+.onboardingSkillRow input {
+width: 100%;
+min-width: 0;
+border: 1px solid rgba(255, 255, 255, 0.11);
+border-radius: 14px;
+outline: none;
+background: rgba(4, 14, 27, 0.76);
+color: #f6f8fc;
+font: inherit;
+font-weight: 400;
+}
+
+.onboardingForm input,
+.onboardingForm select,
+.onboardingSkillRow input {
+min-height: 50px;
+padding: 0 15px;
+}
+
+.onboardingForm textarea {
+padding: 14px 15px;
+resize: vertical;
+line-height: 1.6;
+}
+
+.onboardingForm input:focus,
+.onboardingForm textarea:focus,
+.onboardingForm select:focus,
+.onboardingSkillRow input:focus {
+border-color: rgba(107, 183, 255, 0.64);
+box-shadow: 0 0 0 4px rgba(107, 183, 255, 0.09);
+}
+
+.onboardingSkillRow {
+display: grid;
+grid-template-columns: minmax(0, 1fr) auto;
+gap: 10px;
+}
+
+.onboardingSkillRow button {
+min-height: 50px;
+cursor: pointer;
+padding: 0 20px;
+border: 1px solid rgba(107, 183, 255, 0.25);
+border-radius: 14px;
+background: rgba(107, 183, 255, 0.15);
+color: #dff2ff;
+font: inherit;
+font-weight: 800;
+}
+
+.onboardingChoices {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+margin-top: 12px;
+}
+
+.onboardingChoice {
+cursor: pointer;
+padding: 11px 14px;
+border: 1px solid rgba(255, 255, 255, 0.11);
+border-radius: 999px;
+background: rgba(255, 255, 255, 0.045);
+color: rgba(246, 248, 252, 0.7);
+font: inherit;
+font-size: 0.85rem;
+font-weight: 700;
+transition: 160ms ease;
+}
+
+.onboardingChoice:hover {
+border-color: rgba(107, 183, 255, 0.34);
+color: #f6f8fc;
+transform: translateY(-1px);
+}
+
+.onboardingChoice.selected {
+border-color: rgba(107, 183, 255, 0.45);
+background: linear-gradient(
+135deg,
+rgba(107, 183, 255, 0.19),
+rgba(141, 123, 255, 0.15)
+);
+color: #e4f5ff;
+}
+
+.onboardingActions {
+margin-top: auto;
+padding-top: 30px;
+display: flex;
+justify-content: space-between;
+gap: 12px;
+}
+
+.onboardingBack,
+.onboardingNext {
+min-height: 48px;
+cursor: pointer;
+padding: 0 22px;
+border-radius: 999px;
+font: inherit;
+font-weight: 800;
+}
+
+.onboardingBack {
+border: 1px solid rgba(255, 255, 255, 0.11);
+background: rgba(255, 255, 255, 0.045);
+color: rgba(246, 248, 252, 0.76);
+}
+
+.onboardingNext {
+border: 0;
+background: linear-gradient(135deg, #6bb7ff, #8d7bff);
+color: white;
+box-shadow: 0 12px 30px rgba(107, 183, 255, 0.19);
+}
+
+.onboardingBack:disabled,
+.onboardingNext:disabled {
+cursor: not-allowed;
+opacity: 0.38;
+}
+
+@media (max-width: 900px) {
+.onboardingLayout {
+grid-template-columns: 1fr;
+}
+
+.onboardingSidebar {
+padding: 28px;
+}
+
+.onboardingSteps {
+grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.onboardingStepItem {
+align-items: flex-start;
+flex-direction: column;
+gap: 7px;
+}
+}
+
+@media (max-width: 640px) {
+.onboardingPage {
+padding: 14px;
+}
+
+.onboardingSidebar,
+.onboardingCard {
+padding: 22px;
+border-radius: 22px;
+}
+
+.onboardingCard {
+min-height: 640px;
+}
+
+.onboardingSteps {
+display: none;
+}
+
+.onboardingSkillRow {
+grid-template-columns: 1fr;
+}
+
+.onboardingActions {
+position: relative;
+z-index: 10;
+bottom: auto;
+padding-top: 24px;
+background: transparent;
+pointer-events: auto;
+}
+
+.onboardingNext,
+.onboardingBack {
+position: relative;
+z-index: 11;
+flex: 1;
+pointer-events: auto;
+}
 }
