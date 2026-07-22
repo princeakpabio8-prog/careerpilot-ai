@@ -15,8 +15,8 @@ type JobCardJob = {
   matchScore: number;
   description: string;
   saved: boolean;
-  matchedSkills: string[];
-  missingSkills: string[];
+  matchedSkills?: string[];
+  missingSkills?: string[];
 };
 
 type JobCardProps = {
@@ -53,8 +53,8 @@ export default function JobCard({
       </div>
 
       <MatchInsights
-        matchedSkills={job.matchedSkills}
-        missingSkills={job.missingSkills}
+        matchedSkills={job.matchedSkills ?? []}
+        missingSkills={job.missingSkills ?? []}
         remote={job.remote}
         visaSponsorship={job.visaSponsorship}
       />

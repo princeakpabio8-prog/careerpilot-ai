@@ -14,8 +14,8 @@ type JobActionsJob = {
   matchScore: number;
   description: string;
 saved: boolean;
-matchedSkills: string[];
-missingSkills: string[];
+matchedSkills?: string[];
+missingSkills?: string[];
 };
 
 type JobActionsProps = {
