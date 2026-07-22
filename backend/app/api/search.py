@@ -6,7 +6,7 @@ from app.schemas.profile import JobSearchResult
 router = APIRouter(prefix="/api", tags=["jobs"])
 
 
-@router.get("/jobs/search", response_model=dict)
+@router.get("/job-search", response_model=dict)
 async def search_jobs_endpoint(
     query: str | None = Query(default=None),
     location: str | None = Query(default=None),

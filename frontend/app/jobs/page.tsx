@@ -1,6 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import SearchBar from "@/components/jobs/SearchBar";
+import JobList from "@/components/jobs/JobList";
+import LoadingState from "@/components/jobs/LoadingState";
+import EmptyState from "@/components/jobs/EmptyState";
 import { useEffect, useMemo, useState } from "react";
 import { getProfile, saveSavedJob, searchJobs } from "@/lib/api";
 
@@ -20,6 +24,8 @@ type JobRecord = {
   matchScore: number;
   description: string;
   saved: boolean;
+  matchedSkills?: string[];
+  missingSkills?: string[];
 };
 
 type ProfileData = {
@@ -274,11 +280,20 @@ export default function JobsPage() {
       return right.matchScore - left.matchScore;
     });
 
-    return sorted.map((job) => ({
-      ...job,
-      matchScore: calculateMatch(profile, `${job.title} ${job.description}`).score,
-      saved: savedJobs.includes(job.id),
-    }));
+    return sorted.map((job) => {
+      const match = calculateMatch(
+        profile,
+        `${job.title} ${job.description}`,
+      );
+
+      return {
+        ...job,
+        matchScore: match.score,
+        matchedSkills: match.matched,
+        missingSkills: match.missing,
+        saved: savedJobs.includes(job.id),
+      };
+    });
   }, [jobs, profile, savedJobs, sortOrder]);
 
   const handleSearch = async () => {
@@ -384,61 +399,34 @@ export default function JobsPage() {
           </article>
         </div>
 
-        <div className="searchPanel">
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search roles, skills, or companies" />
-          <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="Location" />
-          <label className="filterToggle">
-            <input type="checkbox" checked={remoteOnly} onChange={() => setRemoteOnly((value) => !value)} />
-            Remote only
-          </label>
-          <label className="filterToggle">
-            <input type="checkbox" checked={visaOnly} onChange={() => setVisaOnly((value) => !value)} />
-            Visa support
-          </label>
-          <select value={sortOrder} onChange={(event) => setSortOrder(event.target.value)}>
-            <option value="match">Sort by match</option>
-            <option value="newest">Sort by newest</option>
-          </select>
-          <button type="button" className="primaryButton" onClick={() => void handleSearch()} disabled={loading}>
-            {loading ? "Searching..." : "Search Jobs"}
-          </button>
-        </div>
+        <SearchBar
+          query={query}
+          location={location}
+          remoteOnly={remoteOnly}
+          visaOnly={visaOnly}
+          sortOrder={sortOrder}
+          loading={loading}
+          onQueryChange={setQuery}
+          onLocationChange={setLocation}
+          onRemoteToggle={() => setRemoteOnly((value) => !value)}
+          onVisaToggle={() => setVisaOnly((value) => !value)}
+          onSortChange={setSortOrder}
+          onSearch={() => void handleSearch()}
+        />
 
         {searchError ? <p className="notice">{searchError}</p> : null}
 
-        {enrichedJobs.length === 0 ? <div className="emptyState">No jobs matched your current filters.</div> : null}
+        {loading ? <LoadingState /> : null}
 
-        <div className="jobList">
-          {enrichedJobs.map((job) => (
-            <article key={job.id} className="jobCard">
-              <div className="jobTop">
-                <div>
-                  <p className="sourceLabel">{job.source}</p>
-                  <h3>{job.title}</h3>
-                  <p className="companyLine">{job.company} · {job.location}</p>
-                </div>
-                <div className="matchBadge">{job.matchScore}% match</div>
-              </div>
-              <p className="jobDescription">{job.description}</p>
-              <div className="metaRow">
-                <span>{job.remote ? "Remote / Hybrid" : "Hybrid"}</span>
-                <span>Visa: {job.visaSponsorship}</span>
-                <span>{job.salary}</span>
-              </div>
-              <div className="actionsRow">
-                <button type="button" className="secondaryButton" onClick={() => void saveJob(job)}>
-                  {job.saved ? "Saved" : "Save Job"}
-                </button>
-                <a className="secondaryButton" href={job.source === "remoteok" ? "https://remoteok.com" : "https://www.google.com/search?q=" + encodeURIComponent(`${job.company} ${job.title}`)} target="_blank" rel="noreferrer">
-                  View Original Job
-                </a>
-                <Link className="primaryButton" href="/cv-generator" onClick={() => seedCv(job)}>
-                  Generate Tailored CV
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
+        {!loading && enrichedJobs.length === 0 ? <EmptyState /> : null}
+
+        {!loading && enrichedJobs.length > 0 ? (
+          <JobList
+            jobs={enrichedJobs}
+            onSave={(selectedJob) => void saveJob(selectedJob)}
+            onGenerateCv={seedCv}
+          />
+        ) : null}
       </section>
 
       <style jsx global>{`
@@ -463,7 +451,12 @@ export default function JobsPage() {
         .searchPanel input, .searchPanel select { width: 100%; border: 1px solid rgba(255,255,255,0.13); border-radius: 12px; padding: 10px 12px; background: rgba(7,17,31,0.75); color: #f3f7ff; }
         .filterToggle { display: flex; align-items: center; gap: 8px; color: #dce9ff; }
         .notice { margin: 0 0 14px; color: #fda4af; }
-        .emptyState { padding: 20px; border-radius: 16px; background: rgba(255,255,255,0.04); color: #9eb0c9; margin-bottom: 14px; }
+        .emptyState, .loadingState { padding: 20px; border-radius: 16px; background: rgba(255,255,255,0.04); color: #9eb0c9; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.07); }
+        .emptyState strong, .loadingState strong { display: block; color: #f3f7ff; margin-bottom: 6px; }
+        .emptyState p, .loadingState p { margin: 0; line-height: 1.55; }
+        .loadingState { display: flex; align-items: center; gap: 14px; }
+        .loadingSpinner { width: 22px; height: 22px; flex: 0 0 auto; border-radius: 999px; border: 3px solid rgba(107,183,255,0.22); border-top-color: #6bb7ff; animation: careerpilot-spin 0.8s linear infinite; }
+        @keyframes careerpilot-spin { to { transform: rotate(360deg); } }
         .statCard span { display: block; color: #9eb0c9; margin-bottom: 8px; }
         .statCard strong { font-size: 1.6rem; }
         .jobList { display: grid; gap: 14px; }
@@ -476,6 +469,18 @@ export default function JobsPage() {
         .jobDescription { margin: 12px 0; color: #dce9ff; line-height: 1.6; }
         .metaRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
         .metaRow span { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,0.06); color: #dce9ff; font-size: 0.92rem; }
+        .matchInsights { margin: 4px 0 16px; padding: 16px; border-radius: 16px; background: linear-gradient(135deg, rgba(37,99,235,0.13), rgba(107,183,255,0.05)); border: 1px solid rgba(107,183,255,0.18); }
+        .matchInsightsHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+        .insightEyebrow { display: block; color: #6bb7ff; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; }
+        .matchInsights h4 { margin: 0; font-size: 1rem; }
+        .insightStatus { flex: 0 0 auto; padding: 6px 10px; border-radius: 999px; background: rgba(74,222,128,0.12); color: #bbf7d0; font-size: 0.78rem; font-weight: 700; }
+        .strengthList { margin: 0; padding-left: 20px; color: #dce9ff; line-height: 1.55; }
+        .strengthList li + li { margin-top: 5px; }
+        .skillGap { margin-top: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .skillGap > span { color: #9eb0c9; font-size: 0.85rem; }
+        .skillGapTags { display: flex; gap: 7px; flex-wrap: wrap; }
+        .skillGapTags span { padding: 6px 9px; border-radius: 999px; background: rgba(251,191,36,0.1); color: #fde68a; border: 1px solid rgba(251,191,36,0.15); font-size: 0.8rem; }
+        .noGapMessage { margin: 12px 0 0; color: #bbf7d0; font-size: 0.88rem; }
         .actionsRow { display: flex; gap: 10px; flex-wrap: wrap; }
         @media (max-width: 900px) { .statsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .searchPanel { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 640px) { .jobsPage { padding: 14px; } .jobsHero, .jobsCard { padding: 18px; } .statsGrid { grid-template-columns: 1fr; } .jobTop { flex-direction: column; } .searchPanel { grid-template-columns: 1fr; } }

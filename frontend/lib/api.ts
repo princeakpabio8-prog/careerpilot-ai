@@ -11,7 +11,7 @@ export type Job = {
   status: "discovered" | "shortlisted" | "approved" | "rejected" | "applied";
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+const API_URL = "http://127.0.0.1:8000";
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(`${API_URL}${path}`, {
@@ -137,7 +137,7 @@ export async function searchJobs(params: Record<string, string | number | boolea
   });
 
   try {
-    return await request<{ results: Array<any>; sources: string[]; errors: string[] }>(`/api/jobs/search?${query.toString()}`);
+    return await request<{ results: Array<any>; sources: string[]; errors: string[] }>(`/api/job-search?${query.toString()}`);
   } catch {
     return { results: [], sources: [], errors: ["Search service is currently unavailable."] };
   }

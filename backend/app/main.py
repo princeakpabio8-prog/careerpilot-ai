@@ -13,12 +13,17 @@ app = FastAPI(
 )
 
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[settings.frontend_url, "http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+CORSMiddleware,
+allow_origins=[
+"http://localhost:3000",
+"http://127.0.0.1:3000",
+"http://10.2.0.2:3000",
+],
+allow_credentials=True,
+allow_methods=["*"],
+allow_headers=["*"],
 )
+
 
 app.include_router(jobs_router, prefix="/api")
 app.include_router(profile_router)
