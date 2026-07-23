@@ -369,8 +369,8 @@ export default function JobsPage() {
             <p>Discover opportunities from LinkedIn, Greenhouse, Lever, Ashby, Wellfound, and RemoteOK with a local-first match engine.</p>
           </div>
           <div className="heroActions">
-            <Link className="backButton" href="/dashboard">
-              Back to dashboard
+            <Link className="backButton" href="/profile">
+              Back to profile
             </Link>
             <Link className="backButton alt" href="/cv-generator">
               Open CV Generator

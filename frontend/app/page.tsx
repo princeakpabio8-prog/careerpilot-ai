@@ -72,7 +72,7 @@ export default function HomePage() {
             <a href="#pricing">Pricing</a>
           </div>
           <div className="navActions">
-            <Link href="/dashboard" className="textLink">
+            <Link href="/onboarding" className="textLink">
               Sign In
             </Link>
             <Link href="/onboarding" className="primaryButton">
