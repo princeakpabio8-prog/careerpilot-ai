@@ -68,14 +68,14 @@ export default function HomePage() {
           <div className="navLinks">
             <a href="#features">Features</a>
             <a href="#how-it-works">How it Works</a>
+            <Link href="/jobs">Jobs</Link>
             <a href="#pricing">Pricing</a>
-            <a href="#signin">Sign In</a>
           </div>
           <div className="navActions">
             <Link href="/dashboard" className="textLink">
               Sign In
             </Link>
-            <Link href="/profile" className="primaryButton">
+            <Link href="/onboarding" className="primaryButton">
               Get Started
             </Link>
           </div>
@@ -89,7 +89,7 @@ export default function HomePage() {
               CareerPilot helps professionals discover remote and visa-sponsored opportunities, match jobs to their experience, and generate tailored CVs and cover letters.
             </p>
             <div className="heroButtons">
-              <Link href="/profile" className="primaryButton large">
+              <Link href="/onboarding" className="primaryButton large">
                 Get Started
               </Link>
               <a href="#how-it-works" className="secondaryButton large">
@@ -191,7 +191,7 @@ export default function HomePage() {
                   <li key={point}>{point}</li>
                 ))}
               </ul>
-              <Link href="/profile" className="secondaryButton">
+              <Link href="/onboarding" className="secondaryButton">
                 Choose {plan.name}
               </Link>
             </article>
@@ -202,7 +202,7 @@ export default function HomePage() {
       <section className="finalCta">
         <h2>Ready to find your next move?</h2>
         <p>Create your profile, discover stronger matches, and generate applications with confidence.</p>
-        <Link href="/profile" className="primaryButton large">
+        <Link href="/onboarding" className="primaryButton large">
           Get Started
         </Link>
       </section>
@@ -212,7 +212,8 @@ export default function HomePage() {
         <div>
           <a href="#features">Features</a>
           <a href="#pricing">Pricing</a>
-          <a href="/dashboard">Dashboard</a>
+          <Link href="/jobs">Jobs</Link>
+          <Link href="/dashboard">Dashboard</Link>
         </div>
       </footer>
     </main>
