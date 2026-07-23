@@ -2,7 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { getGeneratedCvs, getProfile, saveGeneratedCv } from "@/lib/api";
+import {
+  generateAiCv,
+  getGeneratedCvs,
+  getProfile,
+  saveGeneratedCv,
+} from "@/lib/api";
 
 const storageKey = "careerpilot-profile-v1";
 const cvSeedKey = "careerpilot-cv-seed-v1";
@@ -186,7 +191,7 @@ export default function CvGeneratorPage() {
     void getGeneratedCvs().then((cvs) => setSavedCvCount(cvs.length));
   }, []);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!jobDescription.trim()) {
       setError("Please paste a job description.");
       setGeneratedCv("");
@@ -198,96 +203,62 @@ export default function CvGeneratorPage() {
     setIsGenerating(true);
     setCopied(false);
 
-    window.setTimeout(() => {
-      const keywords = extractKeywords(jobDescription);
-      const profileText = [
-        profile.headline,
-        profile.about,
-        profile.education,
-        profile.certifications,
-        profile.targetRoles,
-        ...profile.skills,
-        ...profile.portfolio.map((item) => portfolioDescriptions[item] ?? ""),
-      ].join(" ");
-      const normalizedProfile = normalizeKeyword(profileText);
-
-      const matchedKeywords = keywords.filter((keyword) => normalizedProfile.includes(keyword));
-      const missingKeywords = keywords.filter((keyword) => !normalizedProfile.includes(keyword));
-      const matchScore = keywords.length
-        ? Math.min(95, Math.round((matchedKeywords.length / keywords.length) * 100))
-        : 0;
-
-      const prioritizedSkills = profile.skills.filter((skill) => {
-        const normalizedSkill = normalizeKeyword(skill);
-        return keywords.some((keyword) => normalizedSkill.includes(keyword) || keyword.includes(normalizedSkill));
+    try {
+      const result = await generateAiCv({
+        profile: {
+          name: profile.name,
+          headline: profile.headline,
+          about: profile.about,
+          country: profile.country,
+          preferredCountries: profile.preferredCountries,
+          education: profile.education,
+          certifications: profile.certifications,
+          skills: profile.skills,
+          portfolio: profile.portfolio.map((item) => ({
+            name: item,
+            description: portfolioDescriptions[item] ?? "",
+          })),
+          targetRoles: profile.targetRoles,
+          salary: profile.salary,
+          visaSponsorship: profile.visaSponsorship,
+          workPreferences: profile.workPreferences,
+        },
+        job_title: jobTitle.trim(),
+        company_name: companyName.trim(),
+        job_description: jobDescription.trim(),
       });
 
-      const selectedSkills = prioritizedSkills.length > 0 ? prioritizedSkills : profile.skills.slice(0, 8);
-
-      const roleHint = jobTitle.trim() || "the target role";
-      const tailoredProductPortfolio = profile.portfolio
-        .filter((item) => Boolean(portfolioDescriptions[item]))
-        .map((item) => {
-          const description = portfolioDescriptions[item] ?? "";
-          return `- ${item}: ${tailorDescription(description, keywords, roleHint)}`;
-        })
-        .join("\n");
-
-      const summary = [
-        "# Professional Summary",
-        `${profile.name} is an AI founder, product builder, and business development professional with a strong record of aligning AI governance, product strategy, workflow automation, APIs, and commercial growth with practical delivery. This CV is tailored for ${roleHint} responsibilities and highlights relevant experience in ${companyName.trim() || "the target organisation"}.`,
-      ].join("\n");
-
-      const cv = [
-        `# Full Name`,
-        profile.name,
-        "",
-        `# Professional Headline`,
-        profile.headline,
-        "",
-        summary,
-        "",
-        `# Core Skills`,
-        selectedSkills.map((skill) => `- ${skill}`).join("\n"),
-        "",
-        `# Professional Experience`,
-        `- VeriEdit AI: ${tailorDescription(portfolioDescriptions["VeriEdit AI"] ?? "", keywords, roleHint)}`,
-        `- VeriTrade AI: ${tailorDescription(portfolioDescriptions["VeriTrade AI"] ?? "", keywords, roleHint)}`,
-        `- CallCatch: ${tailorDescription(portfolioDescriptions.CallCatch ?? "", keywords, roleHint)}`,
-        `- CareerPilot AI: ${tailorDescription(portfolioDescriptions["CareerPilot AI"] ?? "", keywords, roleHint)}`,
-        "",
-        `# Education`,
-        profile.education,
-        "",
-        `# Certifications`,
-        profile.certifications,
-        "",
-        `# Preferred Work Arrangement`,
-        profile.workPreferences.join("; "),
-        "",
-        `# Relocation / Visa Sponsorship`,
-        profile.visaSponsorship,
-        "",
-        `Tailored for ${roleHint}${companyName.trim() ? ` at ${companyName.trim()}` : ""}`,
-      ].join("\n");
-
-      setGeneratedCv(cv);
+      setGeneratedCv(result.final_resume);
       setMatchSummary({
-        percentage: matchScore,
-        matched: matchedKeywords.slice(0, 8),
-        missing: missingKeywords.slice(0, 8),
+        percentage: result.ats_score,
+        matched: result.matched_keywords.slice(0, 8),
+        missing: result.missing_keywords.slice(0, 8),
       });
-      setIsGenerating(false);
-      void saveGeneratedCv({
-        job_title: jobTitle.trim() || roleHint,
+
+      await saveGeneratedCv({
+        job_title: jobTitle.trim() || "Target role",
         company_name: companyName.trim() || "Target company",
-        job_description: jobDescription,
-        match_percentage: matchScore,
-        matched_keywords: matchedKeywords.slice(0, 8),
-        missing_keywords: missingKeywords.slice(0, 8),
-        generated_cv: cv,
-      }).then(() => getGeneratedCvs().then((cvs) => setSavedCvCount(cvs.length))).catch(() => undefined);
-    }, 700);
+        job_description: jobDescription.trim(),
+        match_percentage: result.ats_score,
+        matched_keywords: result.matched_keywords.slice(0, 8),
+        missing_keywords: result.missing_keywords.slice(0, 8),
+        generated_cv: result.final_resume,
+      });
+
+      const cvs = await getGeneratedCvs();
+      setSavedCvCount(cvs.length);
+    } catch (generationError) {
+      const message =
+        generationError instanceof Error
+          ? generationError.message
+          : "CareerPilot could not generate your CV right now.";
+
+      setError(message);
+      setGeneratedCv("");
+      setMatchSummary({ percentage: 0, matched: [], missing: [] });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleClear = () => {
@@ -368,7 +339,7 @@ export default function CvGeneratorPage() {
 
             <div className="buttonRow">
               <button type="button" className="primaryButton" onClick={handleGenerate} disabled={isGenerating}>
-                {isGenerating ? "Generating..." : "Generate Tailored CV"}
+                {isGenerating ? "CareerPilot AI is generating..." : "Generate AI Tailored CV"}
               </button>
               <button type="button" className="secondaryButton" onClick={handleClear}>
                 Clear
@@ -404,7 +375,7 @@ export default function CvGeneratorPage() {
                     {copied ? "Copied" : "Copy CV"}
                   </button>
                   <button type="button" className="secondaryButton" onClick={handleDownload} disabled={!generatedCv}>
-                    Download as text file
+                    Download CV
                   </button>
                 </div>
               </div>

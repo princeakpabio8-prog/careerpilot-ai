@@ -142,3 +142,31 @@ export async function searchJobs(params: Record<string, string | number | boolea
     return { results: [], sources: [], errors: ["Search service is currently unavailable."] };
   }
 }
+export type AiCvRequest = {
+  profile: Record<string, any>;
+  job_title: string;
+  company_name: string;
+  job_description: string;
+};
+
+export type AiCvResponse = {
+  ats_score: number;
+  recruiter_confidence: string;
+  recruiter_summary: string;
+  professional_summary: string;
+  core_skills: string[];
+  matched_keywords: string[];
+  missing_keywords: string[];
+  experience_bullets: string[];
+  improvements: string[];
+  final_resume: string;
+};
+
+export async function generateAiCv(
+  payload: AiCvRequest
+): Promise<AiCvResponse> {
+  return request<AiCvResponse>("/api/cv/generate", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
