@@ -41,7 +41,10 @@ export default function JobCard({
           </p>
         </div>
 
-        <div className="matchBadge">{job.matchScore}% match</div>
+        <div className="matchBadge">
+          <span>{job.matchScore}%</span>
+          <small>match</small>
+        </div>
       </div>
 
       <p className="jobDescription">{job.description}</p>
@@ -53,6 +56,9 @@ export default function JobCard({
       </div>
 
       <MatchInsights
+        matchScore={job.matchScore}
+        jobTitle={job.title}
+        salary={job.salary}
         matchedSkills={job.matchedSkills ?? []}
         missingSkills={job.missingSkills ?? []}
         remote={job.remote}

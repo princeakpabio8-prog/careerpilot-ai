@@ -465,24 +465,43 @@ export default function JobsPage() {
         .sourceLabel { margin: 0 0 6px; color: #6bb7ff; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.16em; }
         .jobCard h3 { margin: 0 0 6px; font-size: 1.1rem; }
         .companyLine { margin: 0; color: #9eb0c9; }
-        .matchBadge { padding: 8px 12px; border-radius: 999px; background: rgba(107,183,255,0.16); color: #dff0ff; font-weight: 700; }
+        .matchBadge { min-width: 74px; padding: 10px 14px; border-radius: 16px; background: linear-gradient(145deg, rgba(107,183,255,0.22), rgba(37,99,235,0.16)); border: 1px solid rgba(107,183,255,0.26); color: #dff0ff; text-align: center; box-shadow: inset 0 1px 0 rgba(255,255,255,0.08); }
+        .matchBadge span { display: block; font-size: 1.15rem; font-weight: 850; line-height: 1; }
+        .matchBadge small { display: block; margin-top: 4px; color: #9ecdf7; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; }
         .jobDescription { margin: 12px 0; color: #dce9ff; line-height: 1.6; }
         .metaRow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
         .metaRow span { padding: 8px 10px; border-radius: 999px; background: rgba(255,255,255,0.06); color: #dce9ff; font-size: 0.92rem; }
-        .matchInsights { margin: 4px 0 16px; padding: 16px; border-radius: 16px; background: linear-gradient(135deg, rgba(37,99,235,0.13), rgba(107,183,255,0.05)); border: 1px solid rgba(107,183,255,0.18); }
-        .matchInsightsHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
-        .insightEyebrow { display: block; color: #6bb7ff; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; }
-        .matchInsights h4 { margin: 0; font-size: 1rem; }
-        .insightStatus { flex: 0 0 auto; padding: 6px 10px; border-radius: 999px; background: rgba(74,222,128,0.12); color: #bbf7d0; font-size: 0.78rem; font-weight: 700; }
-        .strengthList { margin: 0; padding-left: 20px; color: #dce9ff; line-height: 1.55; }
+        .matchInsights { margin: 6px 0 18px; padding: 18px; border-radius: 20px; background: radial-gradient(circle at top right, rgba(59,130,246,0.16), transparent 34%), linear-gradient(145deg, rgba(17,35,58,0.96), rgba(9,22,39,0.96)); border: 1px solid rgba(107,183,255,0.2); box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 18px 40px rgba(0,0,0,0.18); }
+        .matchInsightsHeader { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 16px; }
+        .insightEyebrow { display: block; color: #6bb7ff; font-size: 0.7rem; font-weight: 850; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 5px; }
+        .matchInsights h4 { margin: 0; font-size: 1.05rem; color: #f8fbff; }
+        .insightStatus { flex: 0 0 auto; padding: 7px 11px; border-radius: 999px; background: rgba(74,222,128,0.12); color: #bbf7d0; border: 1px solid rgba(74,222,128,0.16); font-size: 0.76rem; font-weight: 800; }
+        .intelligenceGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .scorePanel { padding: 14px; border-radius: 16px; background: rgba(255,255,255,0.035); border: 1px solid rgba(255,255,255,0.07); }
+        .scoreLabelRow { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-bottom: 9px; }
+        .scoreLabelRow span { color: #9eb0c9; font-size: 0.82rem; }
+        .scoreLabelRow strong { color: #f5f9ff; font-size: 1rem; }
+        .scoreTrack { height: 8px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,0.07); }
+        .scoreTrack span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #2563eb, #6bb7ff); transition: width 0.45s ease; }
+        .recruiterTrack span { background: linear-gradient(90deg, #0f9f6e, #63e6be); }
+        .scorePanel p { margin: 9px 0 0; color: #b8c7da; font-size: 0.78rem; line-height: 1.45; }
+        .insightColumns { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr); gap: 16px; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.07); border-bottom: 1px solid rgba(255,255,255,0.07); }
+        .columnLabel { display: block; color: #9eb0c9; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 9px; }
+        .strengthList { margin: 0; padding-left: 19px; color: #dce9ff; line-height: 1.55; font-size: 0.9rem; }
         .strengthList li + li { margin-top: 5px; }
-        .skillGap { margin-top: 12px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-        .skillGap > span { color: #9eb0c9; font-size: 0.85rem; }
         .skillGapTags { display: flex; gap: 7px; flex-wrap: wrap; }
-        .skillGapTags span { padding: 6px 9px; border-radius: 999px; background: rgba(251,191,36,0.1); color: #fde68a; border: 1px solid rgba(251,191,36,0.15); font-size: 0.8rem; }
-        .noGapMessage { margin: 12px 0 0; color: #bbf7d0; font-size: 0.88rem; }
+        .skillGapTags span { padding: 7px 10px; border-radius: 999px; background: rgba(251,191,36,0.1); color: #fde68a; border: 1px solid rgba(251,191,36,0.16); font-size: 0.8rem; font-weight: 700; }
+        .noGapMessage { margin: 0; color: #bbf7d0; font-size: 0.85rem; }
+        .marketSignal { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+        .marketSignal div { padding: 12px; border-radius: 14px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); }
+        .marketSignal span { display: block; color: #8ea2bb; font-size: 0.72rem; margin-bottom: 5px; }
+        .marketSignal strong { color: #eef6ff; font-size: 0.86rem; }
+        .aiRecommendation { display: flex; gap: 11px; align-items: flex-start; margin-top: 14px; padding: 14px; border-radius: 16px; background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(37,99,235,0.09)); border: 1px solid rgba(167,139,250,0.18); }
+        .recommendationIcon { width: 30px; height: 30px; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto; border-radius: 10px; background: rgba(167,139,250,0.16); color: #ddd6fe; }
+        .aiRecommendation p { margin: 0; color: #dce9ff; line-height: 1.55; font-size: 0.88rem; }
         .actionsRow { display: flex; gap: 10px; flex-wrap: wrap; }
         @media (max-width: 900px) { .statsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .searchPanel { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 700px) { .intelligenceGrid, .insightColumns, .marketSignal { grid-template-columns: 1fr; } }
         @media (max-width: 640px) { .jobsPage { padding: 14px; } .jobsHero, .jobsCard { padding: 18px; } .statsGrid { grid-template-columns: 1fr; } .jobTop { flex-direction: column; } .searchPanel { grid-template-columns: 1fr; } }
       `}</style>
     </main>
