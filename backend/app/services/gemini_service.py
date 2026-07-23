@@ -81,7 +81,7 @@ def generate_tailored_cv(
         client = genai.Client(api_key=api_key)
 
         response = client.models.generate_content(
-            model="gemini-2.5-flash-lite",
+            model="gemini-2.5-flash",
             contents=_build_prompt(
                 profile=profile,
                 job_title=job_title,
