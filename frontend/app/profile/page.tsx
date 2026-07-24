@@ -108,73 +108,172 @@ export default function ProfilePage() {
   const selectedCountryCount = useMemo(() => preferredCountries.length, [preferredCountries]);
 
   useEffect(() => {
+    const applyLocalProfile = (parsed: {
+      name?: string;
+      headline?: string;
+      about?: string;
+      country?: string;
+      preferredCountries?: string[];
+      education?: string;
+      certifications?: string;
+      skills?: string[];
+      portfolio?: string[];
+      targetRoles?: string;
+      salary?: string;
+      visaSponsorship?: string;
+      workPreferences?: string[];
+      profileImage?: string | null;
+    }) => {
+      if (parsed.name) setName(parsed.name);
+      if (parsed.headline) setHeadline(parsed.headline);
+      if (parsed.about) setAbout(parsed.about);
+      if (parsed.country) setCountry(parsed.country);
+      if (parsed.preferredCountries) setPreferredCountries(parsed.preferredCountries);
+      if (parsed.education) setEducation(parsed.education);
+      if (parsed.certifications) setCertifications(parsed.certifications);
+      if (parsed.skills) setSkills(parsed.skills);
+      if (parsed.portfolio) setPortfolio(parsed.portfolio);
+      if (parsed.targetRoles) setTargetRoles(parsed.targetRoles);
+      if (parsed.salary) setSalary(parsed.salary);
+      if (parsed.visaSponsorship) setVisaSponsorship(parsed.visaSponsorship);
+      if (parsed.workPreferences) setWorkPreferences(parsed.workPreferences);
+      if (parsed.profileImage !== undefined) setProfileImage(parsed.profileImage);
+    };
+
+    const syncProfile = async (profileData: {
+      name: string;
+      headline: string;
+      about: string;
+      country: string;
+      preferredCountries: string[];
+      education: string;
+      certifications: string;
+      skills: string[];
+      portfolio: string[];
+      targetRoles: string;
+      salary: string;
+      visaSponsorship: string;
+      workPreferences: string[];
+      profileImage: string | null;
+    }) => {
+      await saveProfile({
+        full_name: profileData.name,
+        professional_headline: profileData.headline,
+        about: profileData.about,
+        current_country: profileData.country,
+        preferred_countries: profileData.preferredCountries,
+        education: profileData.education,
+        certifications: profileData.certifications,
+        skills: profileData.skills,
+        portfolio: profileData.portfolio.join("\n"),
+        target_roles: profileData.targetRoles
+          .split(/\n|;/)
+          .map((item) => item.replace(/^-\s*/, "").trim())
+          .filter(Boolean),
+        work_preferences: profileData.workPreferences,
+        salary_expectation: profileData.salary,
+        visa_sponsorship: profileData.visaSponsorship,
+        profile_image: profileData.profileImage,
+      });
+    };
+
     const hydrateProfile = async () => {
       if (typeof window === "undefined") return;
 
+      const localValue = window.localStorage.getItem(storageKey);
+
+      if (localValue) {
+        try {
+          const parsed = JSON.parse(localValue);
+          applyLocalProfile(parsed);
+
+          // The browser profile is the user's most recent explicit profile.
+          // Sync it to the backend so the CV generator receives the same data.
+          await syncProfile({
+            name: parsed.name || name,
+            headline: parsed.headline || headline,
+            about: parsed.about || about,
+            country: parsed.country || country,
+            preferredCountries: parsed.preferredCountries || preferredCountries,
+            education: parsed.education || education,
+            certifications: parsed.certifications || certifications,
+            skills: parsed.skills || skills,
+            portfolio: parsed.portfolio || portfolio,
+            targetRoles: parsed.targetRoles || targetRoles,
+            salary: parsed.salary || salary,
+            visaSponsorship: parsed.visaSponsorship || visaSponsorship,
+            workPreferences: parsed.workPreferences || workPreferences,
+            profileImage: parsed.profileImage ?? profileImage,
+          });
+          return;
+        } catch {
+          window.localStorage.removeItem(storageKey);
+        }
+      }
+
       try {
         const remoteProfile = await getProfile();
-        if (remoteProfile) {
-          setName(remoteProfile.full_name || name);
-          setHeadline(remoteProfile.professional_headline || headline);
-          setAbout(remoteProfile.about || about);
-          setCountry(remoteProfile.current_country || country);
-          setPreferredCountries(remoteProfile.preferred_countries || preferredCountries);
-          setEducation(remoteProfile.education || education);
-          setCertifications(remoteProfile.certifications || certifications);
-          setSkills(remoteProfile.skills || skills);
-          setPortfolio(remoteProfile.portfolio ? remoteProfile.portfolio.split("\n") : portfolio);
-          setTargetRoles(remoteProfile.target_roles.join("\n") || targetRoles);
-          setSalary(remoteProfile.salary_expectation || salary);
-          setVisaSponsorship(remoteProfile.visa_sponsorship || visaSponsorship);
-          setWorkPreferences(remoteProfile.work_preferences || workPreferences);
-          setProfileImage(remoteProfile.profile_image || profileImage);
+        const isDemoProfile =
+          remoteProfile?.full_name?.trim().toLowerCase() === "ada lovelace" ||
+          remoteProfile?.portfolio?.toLowerCase().includes("example.com");
+
+        if (remoteProfile && !isDemoProfile) {
+          const remoteData = {
+            name: remoteProfile.full_name || name,
+            headline: remoteProfile.professional_headline || headline,
+            about: remoteProfile.about || about,
+            country: remoteProfile.current_country || country,
+            preferredCountries: remoteProfile.preferred_countries || preferredCountries,
+            education: remoteProfile.education || education,
+            certifications: remoteProfile.certifications || certifications,
+            skills: remoteProfile.skills || skills,
+            portfolio: remoteProfile.portfolio
+              ? remoteProfile.portfolio.split("\n").filter(Boolean)
+              : portfolio,
+            targetRoles: remoteProfile.target_roles?.join("\n") || targetRoles,
+            salary: remoteProfile.salary_expectation || salary,
+            visaSponsorship: remoteProfile.visa_sponsorship || visaSponsorship,
+            workPreferences: remoteProfile.work_preferences || workPreferences,
+            profileImage: remoteProfile.profile_image || null,
+          };
+
+          applyLocalProfile(remoteData);
+          window.localStorage.setItem(storageKey, JSON.stringify(remoteData));
           return;
         }
       } catch {
-        // fall back to local storage below
+        // The defaults below remain available if the backend is temporarily unavailable.
       }
 
-      const savedProfile = window.localStorage.getItem(storageKey);
-      if (!savedProfile) return;
+      const defaultData = {
+        name,
+        headline,
+        about,
+        country,
+        preferredCountries,
+        education,
+        certifications,
+        skills,
+        portfolio,
+        targetRoles,
+        salary,
+        visaSponsorship,
+        workPreferences,
+        profileImage,
+      };
+
+      window.localStorage.setItem(storageKey, JSON.stringify(defaultData));
 
       try {
-        const parsed = JSON.parse(savedProfile) as {
-          name?: string;
-          headline?: string;
-          about?: string;
-          country?: string;
-          preferredCountries?: string[];
-          education?: string;
-          certifications?: string;
-          skills?: string[];
-          portfolio?: string[];
-          targetRoles?: string;
-          salary?: string;
-          visaSponsorship?: string;
-          workPreferences?: string[];
-          profileImage?: string | null;
-        };
-
-        if (parsed.name) setName(parsed.name);
-        if (parsed.headline) setHeadline(parsed.headline);
-        if (parsed.about) setAbout(parsed.about);
-        if (parsed.country) setCountry(parsed.country);
-        if (parsed.preferredCountries) setPreferredCountries(parsed.preferredCountries);
-        if (parsed.education) setEducation(parsed.education);
-        if (parsed.certifications) setCertifications(parsed.certifications);
-        if (parsed.skills) setSkills(parsed.skills);
-        if (parsed.portfolio) setPortfolio(parsed.portfolio);
-        if (parsed.targetRoles) setTargetRoles(parsed.targetRoles);
-        if (parsed.salary) setSalary(parsed.salary);
-        if (parsed.visaSponsorship) setVisaSponsorship(parsed.visaSponsorship);
-        if (parsed.workPreferences) setWorkPreferences(parsed.workPreferences);
-        if (parsed.profileImage !== undefined) setProfileImage(parsed.profileImage);
+        await syncProfile(defaultData);
       } catch {
-        window.localStorage.removeItem(storageKey);
+        // Local storage remains the source of truth until the backend is available.
       }
     };
 
     void hydrateProfile();
+    // Initial values are intentional defaults for first-time users.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
@@ -252,7 +351,7 @@ export default function ProfilePage() {
         certifications,
         skills,
         portfolio: portfolio.join("\n"),
-        target_roles: targetRoles.split(/\n|;/).map((item) => item.trim()).filter(Boolean),
+        target_roles: targetRoles.split(/\n|;/).map((item) => item.replace(/^-\s*/, "").trim()).filter(Boolean),
         work_preferences: workPreferences,
         salary_expectation: salary,
         visa_sponsorship: visaSponsorship,

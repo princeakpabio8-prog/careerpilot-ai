@@ -6,6 +6,12 @@ from app.models import GeneratedCVModel, ProfileModel, SavedJobModel
 from app.schemas.profile import GeneratedCVCreate, GeneratedCVRead, ProfileCreate, ProfileRead, SavedJobCreate, SavedJobRead
 
 
+def _is_demo_profile(profile: ProfileModel) -> bool:
+    full_name = (getattr(profile, "full_name", "") or "").strip().lower()
+    portfolio = (getattr(profile, "portfolio", "") or "").strip().lower()
+    return full_name == "ada lovelace" or "example.com" in portfolio
+
+
 def _get_or_create_profile(db: Session) -> ProfileModel:
     profile = db.query(ProfileModel).order_by(ProfileModel.created_at.desc()).first()
     if profile is None:
@@ -25,7 +31,7 @@ def startup_event() -> None:
 @router.get("/profile", response_model=ProfileRead | None)
 def get_profile(db: Session = Depends(get_db)) -> ProfileRead | None:
     profile = db.query(ProfileModel).order_by(ProfileModel.created_at.desc()).first()
-    if not profile:
+    if not profile or _is_demo_profile(profile):
         return None
     return ProfileRead.model_validate(profile, from_attributes=True)
 
