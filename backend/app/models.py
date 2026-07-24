@@ -1,5 +1,6 @@
 from datetime import datetime
-from sqlalchemy import JSON, Column, DateTime, Integer, String, Text
+from sqlalchemy import Boolean, JSON, Column, DateTime, Integer,
+String, Text
 from app.database import Base
 
 
@@ -25,19 +26,39 @@ class ProfileModel(Base):
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
 
-class GeneratedCVModel(Base):
-    __tablename__ = "generated_cvs"
+class GeneratedCVModel(Base): tablename = “generated_cvs”
 
     id = Column(Integer, primary_key=True, index=True)
     profile_id = Column(Integer, nullable=False)
+
     job_title = Column(String(255), default="")
     company_name = Column(String(255), default="")
     job_description = Column(Text, default="")
+
     match_percentage = Column(Integer, default=0)
+    career_health_score = Column(Integer, default=0)
+    recruiter_confidence_score = Column(Integer, default=0)
+
     matched_keywords = Column(JSON, default=list)
     missing_keywords = Column(JSON, default=list)
+
     generated_cv = Column(Text, default="")
+    cover_letter = Column(Text, default="")
+
+    application_status = Column(String(50), default="Draft")
+
+    notes = Column(Text, default="")
+    favorite = Column(Boolean, default=False)
+
     created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(
+        DateTime,
+        default=datetime.utcnow,
+        onupdate=datetime.utcnow,
+    )
+
+Purpose: - Career Health Score - Recruiter Confidence Score - Cover
+Letter - Application Status - Notes - Favorite - Updated timestamp
 
 
 class SavedJobModel(Base):
